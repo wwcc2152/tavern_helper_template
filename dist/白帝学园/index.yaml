@@ -438,53 +438,53 @@
     文件: 世界书\[mvu_update]变量输出格式强调
 
 扩展字段:
-   正则:
-     - 正则名称: "[界面]状态栏·统一版"
-       id: 976e6187-ae28-4e5b-a1b1-5163536daa64
-       启用: true
-       查找表达式: /<StatusPlaceHolderImpl\/>/g
-       文件: 正则\[界面]状态栏·统一版
-       来源:
-         用户输入: true
-         AI输出: true
-       作用于:
-         仅格式显示: true
-         仅格式提示词: false
+  正则:
+    - 正则名称: "[界面]状态栏·统一版"
+      id: 976e6187-ae28-4e5b-a1b1-5163536daa64
+      启用: true
+      查找表达式: /<StatusPlaceHolderImpl\/>/g
+      文件: 正则\[界面]状态栏·统一版
+      来源:
+        用户输入: true
+        AI输出: true
+      作用于:
+        仅格式显示: true
+        仅格式提示词: false
 
     - 正则名称: "[备用]状态栏·纯爱版"
-       id: 8c9b5db0-7785-4f87-b401-ed0cdeaf8d44
-       启用: false
-       查找表达式: /<StatusPlaceHolderImpl\/>/g
-       文件: 正则\[备用]状态栏·纯爱版
-       来源:
-         用户输入: true
-         AI输出: true
-       作用于:
-         仅格式显示: true
-         仅格式提示词: false
+      id: 8c9b5db0-7785-4f87-b401-ed0cdeaf8d44
+      启用: false
+      查找表达式: /<StatusPlaceHolderImpl\/>/g
+      文件: 正则\[备用]状态栏·纯爱版
+      来源:
+        用户输入: true
+        AI输出: true
+      作用于:
+        仅格式显示: true
+        仅格式提示词: false
 
-     - 正则名称: "[不发送]界面占位符"
-       id: 2f41c8bf-3f6b-4d51-b86e-9a863a22b09a
-       启用: true
-       查找表达式: /<StatusPlaceHolderImpl\/>/g
-       内容: ""
-       来源:
-         用户输入: true
-         AI输出: true
-       作用于:
-         仅格式显示: false
-         仅格式提示词: true
+    - 正则名称: "[不发送]界面占位符"
+      id: 2f41c8bf-3f6b-4d51-b86e-9a863a22b09a
+      启用: true
+      查找表达式: /<StatusPlaceHolderImpl\/>/g
+      内容: ""
+      来源:
+        用户输入: true
+        AI输出: true
+      作用于:
+        仅格式显示: false
+        仅格式提示词: true
 
-     - 正则名称: "[不发送]去除变量更新"
-       id: 2e064809-5e6f-494f-b42f-be1e0dd072e9
-       启用: true
-       查找表达式: /<UpdateVariable>(.*?)<\/UpdateVariable>/gis
-       内容: ""
-       来源:
-         用户输入: true
-         AI输出: true
-       作用于:
-         仅格式显示: false
+    - 正则名称: "[不发送]去除变量更新"
+      id: 2e064809-5e6f-494f-b42f-be1e0dd072e9
+      启用: true
+      查找表达式: /<UpdateVariable>(.*?)<\/UpdateVariable>/gis
+      内容: ""
+      来源:
+        用户输入: true
+        AI输出: true
+      作用于:
+        仅格式显示: false
         仅格式提示词: true
       最小深度: 4
 
@@ -493,9 +493,9 @@
       启用: true
       查找表达式: /<UpdateVariable>(.*?)<\/UpdateVariable>/gis
       内容: |-
-        <details><summary>变量更新完成</summary>
-        $1
-        </details>
+         <details><summary>变量更新完成</summary>
+         $1
+         </details>
       来源:
         用户输入: false
         AI输出: true
@@ -508,9 +508,9 @@
       启用: true
       查找表达式: /<updatevariable>(?!.*<\/updatevariable>)\s*(.*)\s*$/gsi
       内容: |-
-        <details><summary>变量更新中...</summary>
-        $1
-        </details>
+         <details><summary>变量更新中...</summary>
+         $1
+         </details>
       来源:
         用户输入: false
         AI输出: true
