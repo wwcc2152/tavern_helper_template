@@ -1,0 +1,94 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+:root{--bg:#0a0608;--card:#1a0e12;--card-hover:#241418;--text:#e8d0d0;--text-dim:#c4b0b0;--text-muted:#a08080;--accent:#c94c4c;--accent-light:#e87070;--accent-dim:#8a3030;--border:#3d2828;--fs-xs:11px;--fs-sm:12px;--fs-md:14px;--fs-lg:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:transparent;display:flex;justify-content:center;font-family:'Noto Serif SC','SimSun',serif;line-height:1.5;padding:6px}
+.container{display:flex;flex-direction:column;gap:6px;max-width:500px;width:100%}
+.header{background:linear-gradient(135deg,var(--card),var(--card-hover));border:1px solid var(--border);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center}
+.header-l{display:flex;flex-direction:column;gap:1px}
+.header-t{font-size:var(--fs-md);color:var(--accent-light);font-weight:bold}
+.header-s{font-size:var(--fs-xs);color:var(--text-dim)}
+.header-r{font-size:var(--fs-xs);color:var(--text-dim);text-align:right}
+.girl-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.girl-h{background:var(--card-hover);padding:6px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.girl-h:hover{background:var(--card)}
+.girl-h .gf{font-size:12px;color:var(--text-muted);transition:transform .2s;margin-left:6px}
+.girl-h .gf.open{transform:rotate(90deg)}
+.girl-n{font-size:var(--fs-md);color:var(--accent-light);font-weight:bold}
+.girl-a{font-size:var(--fs-xs);color:var(--text-muted)}
+.girl-b{padding:6px 12px;display:flex;flex-direction:column;gap:4px}
+.girl-b.collapsed{display:none}
+.sl{font-size:var(--fs-xs);color:var(--accent);letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:2px;margin-top:4px;font-weight:bold}
+.row{display:flex;justify-content:space-between;font-size:var(--fs-sm)}
+.rl{color:var(--text-dim);flex-shrink:0;min-width:50px}
+.rv{color:var(--text);text-align:right;flex:1;margin-left:4px}
+.tags{display:flex;flex-wrap:wrap;gap:3px}
+.tag{font-size:var(--fs-xs);background:var(--border);color:var(--text-dim);padding:1px 5px;border-radius:3px;white-space:nowrap}
+.sb-r{display:flex;align-items:center;gap:6px;font-size:var(--fs-sm)}
+.sb-l{color:var(--text-dim);flex-shrink:0;min-width:56px}
+.sb-f{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.sb-i{height:100%;background:linear-gradient(90deg,var(--accent-dim),var(--accent-light));border-radius:3px}
+.sb-p{color:var(--accent-light);flex-shrink:0;min-width:30px;text-align:right;font-size:var(--fs-xs)}
+.mono{background:var(--bg);border-left:2px solid var(--accent);padding:3px 6px;font-size:var(--fs-sm);color:var(--text-dim);font-style:italic;border-radius:0 4px 4px 0;margin-top:4px;line-height:1.5;min-height:16px}
+.footer{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px 12px;display:flex;justify-content:space-between;font-size:var(--fs-xs);color:var(--text-dim)}
+.placeholder{text-align:center;padding:24px;color:var(--text-muted);font-size:var(--fs-sm)}
+</style>
+</head>
+<body>
+<div class="container" id="root"><div class="placeholder">读取变量中...</div></div>
+<script>
+(function(){
+  try{
+    var msgId=getCurrentMessageId(),msgs=getChatMessages(msgId),sd=null;
+    for(var i=0;i<msgs.length;i++){if(msgs[i]&&msgs[i].data&&msgs[i].data.stat_data){sd=msgs[i].data.stat_data;break}}
+    if(!sd){document.getElementById('root').innerHTML='<div class=placeholder>等待变量初始化...</div>';return}
+
+    function gv(o,p,d){if(!o||!p)return d||'';var k=p.split('.'),c=o;for(var i=0;i<k.length;i++){if(c===null||typeof c!=='object')return d||'';c=c[k[i]];if(c===undefined)return d||''}return c===null||c===undefined?d||'':String(c)}
+
+    var xn=sd['性奴'];if(!xn){document.getElementById('root').innerHTML='<div class=placeholder>性奴变量组缺失</div>';return}
+    var sc=xn['场景']||{},chars=xn['在场奴隶状态']||{},cb=xn['俱乐部']||{};
+
+    var tags=function(str){if(!str)return'';var a=str.split('、');var h='';for(var i=0;i<a.length;i++){h+='<span class=tag>'+a[i]+'</span>'}return h};
+
+    var html='<div class=header><div class=header-l><span class=header-t>奉天市·白帝大学</span><span class=header-s>'+gv(sc,'地点')+'</span></div><div class=header-r><div>'+gv(sc,'时间')+'</div><div>'+gv(sc,'在场人物')+'</div></div></div>';
+
+    var charNames=Object.keys(chars);
+    if(charNames.length===0){
+      html+='<div class=placeholder>暂无在场角色</div>';
+    }else{
+      for(var idx=0;idx<charNames.length;idx++){
+        var name=charNames[idx],c=chars[name]||{};
+        var heat=parseInt(gv(c,'发情程度','0'))||0;
+        var obey=parseInt(gv(c,'服从度','0'))||0;
+
+        html+='<div class=girl-card><div class=girl-h><span class=girl-n>'+name+'</span><span class=girl-a>'+gv(c,'身份定位')+'</span><span class=gf>▶</span></div><div class=girl-b>';
+        html+='<div class=sl>穿 着</div><div class=row><span class=rl>当前</span><span class=rv>'+gv(c,'穿着')+'</span></div>';
+        html+='<div class=sl>肉体开发度</div><div class=row><span class=rl>状态</span><span class=rv>'+gv(c,'肉体开发度')+'</span></div>';
+        html+='<div class=sl>佩戴道具</div><div class=tags>'+tags(gv(c,'佩戴道具'))+'</div>';
+        html+='<div class=sb-r><span class=sb-l>发情程度</span><div class=sb-f><div class=sb-i style=width:'+heat+'%></div></div><span class=sb-p>'+heat+'%</span></div>';
+        html+='<div class=sb-r><span class=sb-l>服从度</span><div class=sb-f><div class=sb-i style=width:'+obey+'%></div></div><span class=sb-p>'+obey+'%</span></div>';
+        html+='<div class=mono>'+gv(c,'内心独白')+'</div></div></div>';
+      }
+    }
+
+    html+='<div class=footer><span>白帝秘密俱乐部 · 内圈</span><span>'+gv(cb,'下次活动')+'</span><span>'+gv(cb,'在场人物')+'</span></div>';
+
+    document.getElementById('root').innerHTML=html;
+    var headers=document.querySelectorAll('.girl-h');
+    for(var i=0;i<headers.length;i++){(function(h){
+      h.addEventListener('click',function(){
+        var body=h.nextElementSibling,arrow=h.querySelector('.gf');
+        if(body)body.classList.toggle('collapsed');
+        if(arrow)arrow.classList.toggle('open');
+      });
+    })(headers[i])}
+  }catch(e){document.getElementById('root').innerHTML='<div class=placeholder style=color:#e87070>'+e.message+'</div>'}
+})();
+</script>
+</body>
+</html>
+```

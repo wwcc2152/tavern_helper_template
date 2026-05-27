@@ -1,0 +1,631 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+:root {
+  /* 公共变量 */
+  --fs-xs: 11px; --fs-sm: 12px; --fs-md: 14px; --fs-lg: 16px;
+  
+  /* 性奴模式变量 */
+  --xn-bg: #0a0608; --xn-card: #1a0e12; --xn-card-hover: #241418;
+  --xn-text: #e8d0d0; --xn-text-dim: #c4b0b0; --xn-text-muted: #a08080;
+  --xn-accent: #c94c4c; --xn-accent-light: #e87070; --xn-accent-dim: #8a3030;
+  --xn-border: #3d2828;
+  
+  /* 纯爱模式变量 */
+  --ca-bg: #f5f7fa; --ca-card: #ffffff; --ca-card-hover: #fafafe;
+  --ca-text: #2c3e50; --ca-text-dim: #6c7a89; --ca-text-muted: #95a5a6;
+  --ca-accent: #6c5ce7; --ca-accent-light: #a29bfe; --ca-accent-pink: #e84393;
+  --ca-accent-warm: #fd79a8; --ca-border: #e0e6ed; --ca-border-light: #f0f2f5;
+  
+  /* 混合模式变量 */
+  --mix-bg: #1a1020; --mix-card: #2a1a30; --mix-card-hover: #3a2a40;
+  --mix-text: #e0d0f0; --mix-text-dim: #c0b0d0; --mix-text-muted: #a090c0;
+  --mix-accent: #9c5cf0; --mix-accent-light: #b87cff; --mix-accent-dark: #7c3ce0;
+  --mix-border: #4a3a60;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  line-height: 1.5;
+  padding: 6px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* 模式标签 */
+.mode-tag {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: var(--fs-xs);
+  padding: 1px 6px;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.xn-mode .mode-tag { background: var(--xn-accent-dim); color: var(--xn-text); }
+.ca-mode .mode-tag { background: var(--ca-accent); color: white; }
+.mix-mode .mode-tag { background: var(--mix-accent-dark); color: var(--mix-text); }
+
+.header {
+  position: relative;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid;
+}
+
+.xn-mode .header {
+  background: linear-gradient(135deg, var(--xn-card), var(--xn-card-hover));
+  border-color: var(--xn-border);
+  color: var(--xn-text);
+}
+
+.ca-mode .header {
+  background: linear-gradient(135deg, var(--ca-accent), var(--ca-accent-warm));
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 2px 10px rgba(108, 92, 231, 0.2);
+}
+
+.mix-mode .header {
+  background: linear-gradient(135deg, var(--mix-card), var(--mix-card-hover));
+  border-color: var(--mix-border);
+  color: var(--mix-text);
+}
+
+.header-t {
+  font-size: var(--fs-md);
+  font-weight: bold;
+}
+
+.xn-mode .header-t { color: var(--xn-accent-light); }
+.ca-mode .header-t { color: white; }
+.mix-mode .header-t { color: var(--mix-accent-light); }
+
+.header-s {
+  font-size: var(--fs-xs);
+}
+
+.xn-mode .header-s { color: var(--xn-text-dim); }
+.ca-mode .header-s { color: rgba(255, 255, 255, 0.8); }
+.mix-mode .header-s { color: var(--mix-text-dim); }
+
+.header-r {
+  font-size: var(--fs-xs);
+  text-align: right;
+}
+
+.xn-mode .header-r { color: var(--xn-text-dim); }
+.ca-mode .header-r { color: rgba(255, 255, 255, 0.8); }
+.mix-mode .header-r { color: var(--mix-text-dim); }
+
+.girl-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.xn-mode .girl-card {
+  background: var(--xn-card);
+  border-color: var(--xn-border);
+}
+
+.ca-mode .girl-card {
+  background: var(--ca-card);
+  border-color: var(--ca-border);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.mix-mode .girl-card {
+  background: var(--mix-card);
+  border-color: var(--mix-border);
+}
+
+.girl-h {
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid;
+}
+
+.xn-mode .girl-h {
+  background: var(--xn-card-hover);
+  border-bottom-color: var(--xn-border);
+}
+
+.xn-mode .girl-h:hover { background: var(--xn-card); }
+
+.ca-mode .girl-h {
+  background: var(--ca-card-hover);
+  border-bottom-color: var(--ca-border-light);
+}
+
+.ca-mode .girl-h:hover { background: var(--ca-card); }
+
+.mix-mode .girl-h {
+  background: var(--mix-card-hover);
+  border-bottom-color: var(--mix-border);
+}
+
+.mix-mode .girl-h:hover { background: var(--mix-card); }
+
+.girl-av {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-md);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.xn-mode .girl-av { background: linear-gradient(135deg, var(--xn-accent-dim), var(--xn-accent)); color: var(--xn-text); }
+.ca-mode .girl-av { background: linear-gradient(135deg, var(--ca-accent), var(--ca-accent-warm)); color: white; }
+.mix-mode .girl-av { background: linear-gradient(135deg, var(--mix-accent-dark), var(--mix-accent)); color: var(--mix-text); }
+
+.girl-info { display: flex; flex-direction: column; }
+.girl-n { font-size: var(--fs-md); font-weight: bold; }
+.girl-r { font-size: var(--fs-xs); }
+
+.xn-mode .girl-n { color: var(--xn-accent-light); }
+.xn-mode .girl-r { color: var(--xn-text-dim); }
+
+.ca-mode .girl-n { color: var(--ca-text); }
+.ca-mode .girl-r { color: var(--ca-text-dim); }
+
+.mix-mode .girl-n { color: var(--mix-accent-light); }
+.mix-mode .girl-r { color: var(--mix-text-dim); }
+
+.gf {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform 0.2s;
+  color: var(--xn-text-muted);
+}
+
+.ca-mode .gf { color: var(--ca-text-muted); }
+.mix-mode .gf { color: var(--mix-text-muted); }
+.gf.open { transform: rotate(90deg); }
+
+.girl-b {
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.girl-b.collapsed { display: none; }
+
+.sl {
+  font-size: var(--fs-xs);
+  letter-spacing: 1px;
+  border-bottom: 1px solid;
+  padding-bottom: 2px;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.xn-mode .sl { color: var(--xn-accent); border-bottom-color: var(--xn-border); }
+.ca-mode .sl { color: var(--ca-accent); border-bottom-color: var(--ca-border); }
+.mix-mode .sl { color: var(--mix-accent); border-bottom-color: var(--mix-border); }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+  padding: 1px 0;
+}
+
+.rl { flex-shrink: 0; min-width: 56px; }
+.rv { text-align: right; }
+
+.xn-mode .rl { color: var(--xn-text-dim); }
+.xn-mode .rv { color: var(--xn-text); }
+
+.ca-mode .rl { color: var(--ca-text-dim); }
+.ca-mode .rv { color: var(--ca-text); }
+
+.mix-mode .rl { color: var(--mix-text-dim); }
+.mix-mode .rv { color: var(--mix-text); }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.tag {
+  font-size: var(--fs-xs);
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.xn-mode .tag { background: var(--xn-border); color: var(--xn-text-dim); }
+.ca-mode .tag { background: var(--ca-border-light); color: var(--ca-text-dim); }
+.mix-mode .tag { background: var(--mix-border); color: var(--mix-text-dim); }
+
+.diary {
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.xn-mode .diary { background: var(--xn-bg); border-left: 2px solid var(--xn-accent); }
+.ca-mode .diary { background: linear-gradient(135deg, #faf5ff, #fff5f8); border: 1px solid var(--ca-border-light); }
+.mix-mode .diary { background: var(--mix-card-hover); border-left: 2px solid var(--mix-accent); }
+
+.dl {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  padding: 2px 0;
+}
+
+.dl + .dl {
+  border-top: 1px dotted;
+}
+
+.xn-mode .dl + .dl { border-top-color: var(--xn-border); }
+.ca-mode .dl + .dl { border-top-color: var(--ca-border-light); }
+.mix-mode .dl + .dl { border-top-color: var(--mix-border); }
+
+.di { flex-shrink: 0; width: 14px; text-align: center; }
+.dt { flex: 1; }
+
+.xn-mode .di { color: var(--xn-accent-light); }
+.xn-mode .dt { color: var(--xn-text); }
+
+.ca-mode .di { color: var(--ca-accent-warm); }
+.ca-mode .dt { color: var(--ca-text); }
+
+.mix-mode .di { color: var(--mix-accent-light); }
+.mix-mode .dt { color: var(--mix-text); }
+
+.sb-r {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-sm);
+}
+
+.sb-l { flex-shrink: 0; min-width: 56px; }
+.sb-f { flex: 1; height: 6px; border-radius: 3px; overflow: hidden; }
+.sb-i { height: 100%; border-radius: 3px; }
+.sb-p { flex-shrink: 0; min-width: 30px; text-align: right; font-size: var(--fs-xs); }
+
+.xn-mode .sb-l { color: var(--xn-text-dim); }
+.xn-mode .sb-f { background: var(--xn-border); }
+.xn-mode .sb-i { background: linear-gradient(90deg, var(--xn-accent-dim), var(--xn-accent-light)); }
+.xn-mode .sb-p { color: var(--xn-accent-light); }
+
+.ca-mode .sb-l { color: var(--ca-text-dim); }
+.ca-mode .sb-f { background: var(--ca-border); }
+.ca-mode .sb-i { background: linear-gradient(90deg, var(--ca-accent-light), var(--ca-accent-warm)); }
+.ca-mode .sb-p { color: var(--ca-accent-pink); }
+
+.mix-mode .sb-l { color: var(--mix-text-dim); }
+.mix-mode .sb-f { background: var(--mix-border); }
+.mix-mode .sb-i { background: linear-gradient(90deg, var(--mix-accent-dark), var(--mix-accent-light)); }
+.mix-mode .sb-p { color: var(--mix-accent-light); }
+
+.mono {
+  border-left: 2px solid;
+  padding: 3px 6px;
+  font-size: var(--fs-sm);
+  font-style: italic;
+  border-radius: 0 4px 4px 0;
+  margin-top: 4px;
+  line-height: 1.5;
+  min-height: 16px;
+}
+
+.xn-mode .mono { background: var(--xn-bg); border-left-color: var(--xn-accent); color: var(--xn-text-dim); }
+.ca-mode .mono { background: var(--ca-bg); border-left-color: var(--ca-accent-warm); color: var(--ca-text-dim); }
+.mix-mode .mono { background: var(--mix-bg); border-left-color: var(--mix-accent); color: var(--mix-text-dim); }
+
+.footer {
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-xs);
+  border: 1px solid;
+}
+
+.xn-mode .footer { background: var(--xn-card); border-color: var(--xn-border); color: var(--xn-text-dim); }
+.ca-mode .footer { background: var(--ca-card); border-color: var(--ca-border); color: var(--ca-text-dim); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
+.mix-mode .footer { background: var(--mix-card); border-color: var(--mix-border); color: var(--mix-text-dim); }
+
+.placeholder {
+  text-align: center;
+  padding: 24px;
+  font-size: var(--fs-sm);
+}
+
+.xn-mode .placeholder { color: var(--xn-text-muted); }
+.ca-mode .placeholder { color: var(--ca-text-muted); }
+.mix-mode .placeholder { color: var(--mix-text-muted); }
+
+.error {
+  text-align: center;
+  padding: 16px;
+  font-size: var(--fs-sm);
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.xn-mode .error { background: #2a0a0a; border-color: var(--xn-accent-dim); color: var(--xn-accent-light); }
+.ca-mode .error { background: #fff0f5; border-color: var(--ca-accent-warm); color: var(--ca-accent-pink); }
+.mix-mode .error { background: #2a1a30; border-color: var(--mix-accent-dark); color: var(--mix-accent-light); }
+</style>
+</head>
+<body>
+<div class="container" id="root"><div class="placeholder">读取变量中...</div></div>
+<script>
+(function() {
+  try {
+    var msgId = getCurrentMessageId(),
+        msgs = getChatMessages(msgId),
+        sd = null;
+    
+    for (var i = 0; i < msgs.length; i++) {
+      if (msgs[i] && msgs[i].data && msgs[i].data.stat_data) {
+        sd = msgs[i].data.stat_data;
+        break;
+      }
+    }
+    
+    if (!sd) {
+      document.getElementById('root').innerHTML = '<div class="placeholder">等待变量初始化...</div>';
+      return;
+    }
+    
+    // 通用辅助函数
+    function gv(o, p, d) {
+      if (!o || !p) return d || '';
+      var k = p.split('.'), c = o;
+      for (var i = 0; i < k.length; i++) {
+        if (c === null || typeof c !== 'object') return d || '';
+        c = c[k[i]];
+        if (c === undefined) return d || '';
+      }
+      return c === null || c === undefined ? d || '' : String(c);
+    }
+    
+    // 获取模式和场景数据
+    var mode = gv(sd, '模式', '混合');
+    var scene = sd['场景'] || {};
+    var chars = sd['在场角色'] || {};
+    var club = sd['俱乐部'] || {};
+    
+    // 设置模式类
+    var modeClass = '';
+    if (mode === '性奴') modeClass = 'xn-mode';
+    else if (mode === '纯爱') modeClass = 'ca-mode';
+    else modeClass = 'mix-mode';
+    
+    // 创建容器
+    var html = '<div class="container ' + modeClass + '">';
+    
+    // 模式标签
+    var modeLabel = mode === '性奴' ? '性奴模式' : mode === '纯爱' ? '纯爱模式' : '混合模式';
+    html += '<div class="mode-tag">' + modeLabel + '</div>';
+    
+    // 头部
+    html += '<div class="header">';
+    html += '<div><div class="header-t">奉天市·白帝大学</div>';
+    html += '<div class="header-s">' + gv(scene, '地点') + '</div></div>';
+    html += '<div class="header-r"><div>' + gv(scene, '时间') + '</div>';
+    html += '<div>' + gv(scene, '天气') + '</div>';
+    html += '<div>' + gv(scene, '在场人物') + '</div></div></div>';
+    
+    // 角色列表
+    var charNames = Object.keys(chars);
+    if (charNames.length === 0) {
+      html += '<div class="placeholder">暂无在场角色</div>';
+    } else {
+      var gradients = [
+        'linear-gradient(135deg, #c94c4c, #e87070)',
+        'linear-gradient(135deg, #6c5ce7, #a29bfe)',
+        'linear-gradient(135deg, #00b894, #55efc4)',
+        'linear-gradient(135deg, #fdcb6e, #e17055)',
+        'linear-gradient(135deg, #0984e3, #74b9ff)',
+        'linear-gradient(135deg, #e84393, #fd79a8)',
+        'linear-gradient(135deg, #9c5cf0, #b87cff)'
+      ];
+      
+      for (var idx = 0; idx < charNames.length; idx++) {
+        var name = charNames[idx],
+            c = chars[name] || {},
+            charMode = gv(c, '模式', mode),
+            firstChar = name.charAt(0),
+            gradient = gradients[idx % gradients.length];
+        
+        // 转换为数值
+        var heat = parseInt(gv(c, '发情程度', '0')) || 0;
+        var obey = parseInt(gv(c, '服从度', '0')) || 0;
+        var fav = parseInt(gv(c, '好感度', '0')) || 0;
+        var trust = parseInt(gv(c, '信任度', '0')) || 0;
+        var mood = gv(c, '心情', '');
+        var identity = gv(c, '身份定位', '');
+        var features = gv(c, '外貌特征', '');
+        
+        html += '<div class="girl-card">';
+        html += '<div class="girl-h">';
+        html += '<div class="girl-av" style="background:' + gradient + '">' + firstChar + '</div>';
+        html += '<div class="girl-info"><span class="girl-n">' + name + '</span>';
+        
+        // 显示角色模式特定的信息
+        if (charMode === '性奴' && identity) {
+          html += '<span class="girl-r">' + identity + '</span>';
+        } else if (charMode === '纯爱' && mood) {
+          html += '<span class="girl-r">' + mood + '</span>';
+        } else if (mode === '混合') {
+          var displayInfo = identity ? identity : (mood ? mood : '');
+          if (displayInfo) html += '<span class="girl-r">' + displayInfo + '</span>';
+        }
+        
+        html += '</div><span class="gf">▶</span></div>';
+        html += '<div class="girl-b">';
+        
+        // 穿着
+        html += '<div class="sl">当前穿着</div>';
+        html += '<div class="row"><span class="rl">服装</span><span class="rv">' + gv(c, '穿着', '未设置') + '</span></div>';
+        
+        // 根据模式显示不同内容
+        if (charMode === '性奴') {
+          // 性奴模式特定显示
+          html += '<div class="sl">肉体状况</div>';
+          html += '<div class="row"><span class="rl">开发度</span><span class="rv">' + gv(c, '肉体开发度', '未开发') + '</span></div>';
+          
+          html += '<div class="sl">佩戴道具</div>';
+          var propStr = gv(c, '佩戴道具', '');
+          if (propStr && propStr !== '无') {
+            var tagsHtml = '';
+            var props = propStr.split('、');
+            for (var p = 0; p < props.length; p++) {
+              tagsHtml += '<span class="tag">' + props[p] + '</span>';
+            }
+            html += '<div class="tags">' + tagsHtml + '</div>';
+          } else {
+            html += '<div class="row"><span class="rl">无道具</span><span class="rv">-</span></div>';
+          }
+          
+          html += '<div class="sb-r"><span class="sb-l">发情程度</span>';
+          html += '<div class="sb-f"><div class="sb-i" style="width:' + heat + '%"></div></div>';
+          html += '<span class="sb-p">' + heat + '%</span></div>';
+          
+          html += '<div class="sb-r"><span class="sb-l">服从度</span>';
+          html += '<div class="sb-f"><div class="sb-i" style="width:' + obey + '%"></div></div>';
+          html += '<span class="sb-p">' + obey + '%</span></div>';
+          
+        } else if (charMode === '纯爱') {
+          // 纯爱模式特定显示
+          html += '<div class="sb-r"><span class="sb-l">好感度</span>';
+          html += '<div class="sb-f"><div class="sb-i" style="width:' + fav + '%"></div></div>';
+          html += '<span class="sb-p">' + fav + '%</span></div>';
+          
+          html += '<div class="sb-r"><span class="sb-l">信任度</span>';
+          html += '<div class="sb-f"><div class="sb-i" style="width:' + trust + '%"></div></div>';
+          html += '<span class="sb-p">' + trust + '%</span></div>';
+          
+          if (features) {
+            html += '<div class="sl">特征备注</div>';
+            html += '<div class="diary"><div class="dl"><span class="di">♡</span><span class="dt">' + features + '</span></div></div>';
+          }
+        } else {
+          // 混合模式显示全部
+          if (heat > 0 || obey > 0 || fav > 0 || trust > 0) {
+            html += '<div class="sl">数值状态</div>';
+            
+            if (heat > 0) {
+              html += '<div class="sb-r"><span class="sb-l">发情度</span>';
+              html += '<div class="sb-f"><div class="sb-i" style="width:' + heat + '%"></div></div>';
+              html += '<span class="sb-p">' + heat + '%</span></div>';
+            }
+            
+            if (obey > 0) {
+              html += '<div class="sb-r"><span class="sb-l">服从度</span>';
+              html += '<div class="sb-f"><div class="sb-i" style="width:' + obey + '%"></div></div>';
+              html += '<span class="sb-p">' + obey + '%</span></div>';
+            }
+            
+            if (fav > 0) {
+              html += '<div class="sb-r"><span class="sb-l">好感度</span>';
+              html += '<div class="sb-f"><div class="sb-i" style="width:' + fav + '%"></div></div>';
+              html += '<span class="sb-p">' + fav + '%</span></div>';
+            }
+            
+            if (trust > 0) {
+              html += '<div class="sb-r"><span class="sb-l">信任度</span>';
+              html += '<div class="sb-f"><div class="sb-i" style="width:' + trust + '%"></div></div>';
+              html += '<span class="sb-p">' + trust + '%</span></div>';
+            }
+          }
+          
+          if (gv(c, '肉体开发度') || gv(c, '佩戴道具')) {
+            html += '<div class="sl">状态信息</div>';
+            if (gv(c, '肉体开发度')) {
+              html += '<div class="row"><span class="rl">开发度</span><span class="rv">' + gv(c, '肉体开发度') + '</span></div>';
+            }
+            if (gv(c, '佩戴道具') && gv(c, '佩戴道具') !== '无') {
+              html += '<div class="row"><span class="rl">道具</span><span class="rv">' + gv(c, '佩戴道具') + '</span></div>';
+            }
+          }
+          
+          if (features) {
+            html += '<div class="sl">特征备注</div>';
+            html += '<div class="diary"><div class="dl"><span class="di">♡</span><span class="dt">' + features + '</span></div></div>';
+          }
+        }
+        
+        // 内心独白
+        var monologue = gv(c, '内心独白', '');
+        if (monologue) {
+          html += '<div class="mono">' + monologue + '</div>';
+        }
+        
+        html += '</div></div>';
+      }
+    }
+    
+    // 底部
+    html += '<div class="footer">';
+    var clubInfo = gv(club, '下次活动', '无活动安排');
+    if (clubInfo && clubInfo !== '待定' && clubInfo !== '无活动安排') {
+      html += '<span>秘密俱乐部 · ' + clubInfo + '</span>';
+    } else {
+      html += '<span>白帝学园</span>';
+    }
+    html += '<span>当前模式: ' + modeLabel + '</span>';
+    html += '</div>';
+    
+    html += '</div>';
+    
+    document.getElementById('root').innerHTML = html;
+    
+    // 添加折叠功能
+    var headers = document.querySelectorAll('.girl-h');
+    for (var i = 0; i < headers.length; i++) {
+      (function(h) {
+        h.addEventListener('click', function() {
+          var body = h.nextElementSibling,
+              arrow = h.querySelector('.gf');
+          if (body) body.classList.toggle('collapsed');
+          if (arrow) arrow.classList.toggle('open');
+        });
+      })(headers[i]);
+    }
+  } catch (e) {
+    document.getElementById('root').innerHTML = '<div class="error">' + e.message + '</div>';
+  }
+})();
+</script>
+</body>
+</html>
+```
